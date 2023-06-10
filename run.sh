@@ -2,6 +2,14 @@
 
 API_ENDPOINT="http://0.0.0.0:8000"
 
+platform(){
+    if [ $1 == "up" ]; then
+        docker-compose -f ./deployment/docker-compose.yaml up -d
+    elif [ $1 == "down" ]; then
+        docker-compose -f ./deployment/docker-compose.yaml down
+    fi
+}
+
 test() {
     # Check if the server at API_ENDPOINT is running using "curl"
     # If yes, run `pytest tests/`
@@ -34,7 +42,17 @@ push() {
     git push "$@"
 }
 
-# Check command-line arguments
+help() {
+    echo "Usage: run.sh <command>"
+    echo
+    echo "Available commands:"
+    echo "  platform up      - Deploy all necessary services like fastapi, grafana, mlflow and postgresql using Docker Container"
+    echo "  platform down    - Stop all services using Docker Compose"
+    echo "  test             - Run unit tests for the running FastAPI API"
+    echo "  git-push <args>  - Commit and push changes to a Git branch, semantic and coding style will be checked before pushing code"
+}
+
+
 if [ "$1" == "test" ]; then
     # Execute the test function
     test
@@ -43,7 +61,15 @@ elif [ "$1" == "git-push" ]; then
     shift
     # Execute the commit function
     push "$@"
+elif [ "$1" == "platform" ]; then
+    # Remove the "git-commit" argument before passing to the commit function
+    shift
+    # Execute the commit function
+    platform "$@"
+elif [ "$1" == "help" ]; then
+    # Display help information
+    help
 else
     # Invalid command, display usage instructions
-    echo "Usage: run.sh [test | git-commit <commit_args>]"
+    help
 fi
