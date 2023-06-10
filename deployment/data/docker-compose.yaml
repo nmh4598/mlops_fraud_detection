@@ -1,0 +1,53 @@
+version: '3'
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    restart: always
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    env_file:
+      - environment/.postgres.env
+    ports:
+      - 5432:5432
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:8.2.0
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - 3000:3000
+    env_file:
+      - ./environment/.grafana.env
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+    user: "1000"    
+    # environment: GF_AUTH_ANONYMOUS_ENABLED=true
+
+  fastapi:
+    container_name: fastapi
+    build:
+      context: ..
+      dockerfile: ./deployment/dockerfiles/fastapi.Dockerfile
+    restart: unless-stopped
+    env_file:
+      - ./environment/.fastapi.env
+    depends_on:
+      - postgres
+    ports:
+      - 8000:8000
+  # this service is copied from the sample solution from the Judges
+  # mlflow:
+  #   build:
+  #     context: ..
+  #     dockerfile: dockerfiles/mlflow.Dockerfile
+  #   command:
+  #     - bash
+  #     - -c
+  #     - "mlflow server --backend-store-uri sqlite:////mlflow/mlflow.db --serve-artifacts --host 0.0.0.0 --port 5000"
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - ./run_env/data:/mlflow

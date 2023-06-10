@@ -1,0 +1,7 @@
+fastapi==0.95.1
+pydantic==1.10.2
+PyYAML==6.0
+SQLAlchemy==1.4.41
+mysqlclient==2.1.1
+uvicorn==0.20.0
+psycopg2-binary==2.9.6
