@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - test-github-action
+      - test-mlflow-pytest
   pull_request:
     branches:
       - main
