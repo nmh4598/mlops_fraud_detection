@@ -1,6 +1,15 @@
 # custom
 .vscode/
+dumb/
+dumb.py
+data/
+credentials.yaml
+.fastapi.env
+.postgres.env
+.grafana.env
+*.pem
 
+# .gitignore template from https://github.com/github/gitignore/blob/main/Python.gitignore
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
