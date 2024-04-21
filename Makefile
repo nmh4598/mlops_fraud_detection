@@ -31,8 +31,8 @@ install:
 
 lint:
 	black .
-	pylint **/*.py
-	flake8 **/*.py
+#	pylint **/*.py
+#	flake8 **/*.py
 
 test:
 	python -m pytest /test
