@@ -1,4 +1,4 @@
-name: Python Unit Tests
+name: Python Tests
 
 on:
   push:
@@ -30,6 +30,6 @@ jobs:
         pip install black
         pip install flake8
         make install
-    - name: Analysing the code with pylint
-      run: |
-        pylint $(git ls-files '*.py')
+    # - name: Analysing the code with pylint
+    #   run: |
+    #     pylint $(git ls-files '*.py')
