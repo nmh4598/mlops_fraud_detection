@@ -24,3 +24,17 @@ predictor_restart:
 predictor_curl:
 	curl -X POST http://localhost:5040/phase-1/prob-1/predict -H "Content-Type: application/json" -d @data/curl/phase-1/prob-1/payload-1.json
 	curl -X POST http://localhost:5040/phase-1/prob-1/predict -H "Content-Type: application/json" -d @data/curl/phase-1/prob-1/payload-2.json
+
+install:
+	pip install --upgrade pip &&\
+		pip install -r requirements.txt
+
+lint:
+	black .
+	pylint **/*.py
+	flake8 **/*.py
+
+test:
+	python -m pytest /test
+
+all: install lint test
